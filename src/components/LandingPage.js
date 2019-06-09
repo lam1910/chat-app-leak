@@ -49,9 +49,12 @@ const LandingPage = (props) => {
         props.login(data.insert_user.returning[0].id);
       }}
       onError={(data) => {
-        props.login(data.user);
-        // alert('Please try again with a different username.')
-        // props.setUsername('');
+        if (props.username.match(/^[a-z0-9_-]{3,15}$/g)) {
+          props.login(data.user);
+        }else{
+          alert("Invalid username. Spaces and special characters not allowed. Please try again");
+          props.setUsername('');
+        }
       }}
     >
       {
@@ -193,10 +196,10 @@ const LandingPage = (props) => {
                           <button
                             className="btn btn-outline-secondary"
                             type="submit"
-                            onClick={(e) => {
-                              e.preventDefault();
+                            onClick={(data) => {
+                              data.preventDefault();
                               if (props.username.match(/^[a-z0-9_-]{3,15}$/g)) {
-                                insert_user();
+                                  insert_user();
                               } else {
                                 alert("Invalid username. Spaces and special characters not allowed. Please try again");
                                 props.setUsername('');
